@@ -1,4 +1,4 @@
-package com.example
+package com.exercise.scala.socialnetwork.util
 
 import org.slf4j.LoggerFactory
 
