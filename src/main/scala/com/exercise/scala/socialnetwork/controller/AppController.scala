@@ -5,20 +5,11 @@ import com.exercise.scala.socialnetwork.util.ProfileOperations
 import com.google.gson.{Gson, JsonParser}
 import org.springframework.web.bind.annotation._
 
-import scala.collection.SortedSet
 import scala.collection.mutable.ArrayBuffer
 
 @RestController
 @RequestMapping(path = Array("/api"))
 class AppController {
-
-  implicit val myOrdering = new Ordering[Profile] {
-    def compare(x: Profile, y: Profile): Int = {
-      if (x.id < y.id) -1
-      else if (x.id > y.id) 1
-      else 0
-    }
-  }
 
   var graph = new ArrayBuffer[Profile]()
 
@@ -72,8 +63,15 @@ class AppController {
 
   @PostMapping(path = Array("/suggested/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def suggestedFriends(@RequestBody raw_json: String): String = {
-    val jsonObject = new JsonParser().parse(raw_json).getAsJsonObject
-    val p1 = graph.find(p => p.id == jsonObject.get("_id1").getAsLong).get
-    new Gson().toJson(ProfileOperations.friendSuggestion(p1, graph), classOf[Profile])
+    val json_input = new JsonParser().parse(raw_json).getAsJsonObject
+    val profile = graph.find(p => p.id == json_input.get("_id1").getAsLong).get
+    val listMap = ProfileOperations.friendSuggestion(profile, graph)
+    listMap.toString()
+  }
+
+  @GetMapping(path = Array("/show/profile"))
+  def showProfile: String = {
+    if (!graph.isEmpty) new Gson().toJson(graph)
+    else "social network empty"
   }
 }

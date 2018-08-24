@@ -1,6 +1,6 @@
 package com.exercise.scala.socialnetwork.util
 
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.{ArrayBuffer, HashMap, ListMap}
 
 abstract class SocialNetworkOperation[A, B] {
 
@@ -10,7 +10,7 @@ abstract class SocialNetworkOperation[A, B] {
 
   def conectProfile(a: A, b: A): Boolean
 
-  def friendSuggestion(a: A, graph: ArrayBuffer[B]): ArrayBuffer[B]
+  def friendSuggestion(a: A, graph: ArrayBuffer[B]): ListMap[String, Long]
 
   def enableFriendSuggestion(a: A, status: Boolean, graph: ArrayBuffer[B]): Boolean
 }

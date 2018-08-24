@@ -19,7 +19,7 @@ case class Profile() {
 
   def friendSuggestion: Boolean = _friendSuggestion
 
-  def friends: ArrayBuffer[Profile] = _friends
+  @Expose def friends: ArrayBuffer[Profile] = _friends
 
   def id_=(id: Long): Unit = {
     _id = id
