@@ -2,7 +2,6 @@ package com.exercise.scala.socialnetwork.model
 
 import com.google.gson.annotations.Expose
 
-import scala.collection.SortedSet
 import scala.collection.mutable.ArrayBuffer
 
 case class Profile() {

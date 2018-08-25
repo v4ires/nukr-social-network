@@ -1,22 +1,16 @@
 package com.exercise.scala.socialnetwork.controller
 
 import com.exercise.scala.socialnetwork.model.Profile
+import com.exercise.scala.socialnetwork.respository.DataRepository
 import com.exercise.scala.socialnetwork.util.ProfileOperations
-import com.google.gson.{Gson, JsonParser}
+import com.google.gson.{Gson, JsonObject, JsonParser}
 import org.springframework.web.bind.annotation._
-
-import scala.collection.mutable.ArrayBuffer
 
 @RestController
 @RequestMapping(path = Array("/api"))
 class AppController {
 
-  var graph = new ArrayBuffer[Profile]()
-
   class FriendLoopException extends Exception("the same profile cannot add as friend")
-
-  @GetMapping(path = Array("/hello"))
-  def hello: String = "hello world"
 
   /**
     *
@@ -26,7 +20,7 @@ class AppController {
   @PostMapping(path = Array("/add/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def addProfile(@RequestBody profile: String): String = {
     val new_profile = new Gson().fromJson(profile, classOf[Profile])
-    val check: Boolean = ProfileOperations.addProfile(new_profile, graph)
+    val check: Boolean = ProfileOperations.addProfile(new_profile)
     if (check) s"Profile ${new_profile.name} inserted..."
     else s"Profile ${new_profile.name} isn't inserted..."
   }
@@ -40,10 +34,9 @@ class AppController {
   def connectProfile(@RequestBody raw_json: String): String = {
 
     try {
-      val parser = new JsonParser
-      val jsonObject = parser.parse(raw_json).getAsJsonObject
-      val p1 = graph.find(p => p.id == jsonObject.get("_id1").getAsLong).get
-      val p2 = graph.find(p => p.id == jsonObject.get("_id2").getAsLong).get
+      val jsonObject = new JsonParser().parse(raw_json).getAsJsonObject
+      val p1 = ProfileOperations.findProfile(jsonObject.get("_id1").getAsLong)
+      val p2 = ProfileOperations.findProfile(jsonObject.get("_id2").getAsLong)
 
       if (p1 != null && p2 != null) {
         if (p1.id != p2.id) {
@@ -61,17 +54,38 @@ class AppController {
     }
   }
 
+  /**
+    *
+    * @param raw_json
+    * @return
+    */
   @PostMapping(path = Array("/suggested/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def suggestedFriends(@RequestBody raw_json: String): String = {
     val json_input = new JsonParser().parse(raw_json).getAsJsonObject
-    val profile = graph.find(p => p.id == json_input.get("_id1").getAsLong).get
-    val listMap = ProfileOperations.friendSuggestion(profile, graph)
+    val profile = ProfileOperations.findProfile(json_input.get("_id1").getAsLong)
+    val listMap = ProfileOperations.friendSuggestion(profile)
     listMap.toString()
   }
 
+  /**
+    *
+    * @return
+    */
   @GetMapping(path = Array("/show/profile"))
   def showProfile: String = {
-    if (!graph.isEmpty) new Gson().toJson(graph)
+    if (!DataRepository.graph.isEmpty) new Gson().toJson(DataRepository.graph)
     else "social network empty"
+  }
+
+  /**
+    *
+    * @return
+    */
+  @PostMapping(path = Array("/edit/profile/friend/suggestion"), produces = Array("text/plain"), consumes = Array("application/json"))
+  def friendSuggestion(@RequestBody raw_json: String): Boolean = {
+    val json_input: JsonObject = new JsonParser().parse(raw_json).getAsJsonObject
+    val profile: Profile = ProfileOperations.findProfile(json_input.get("_id1").getAsLong)
+    val status: Boolean = json_input.get("status").getAsBoolean
+    ProfileOperations.enableFriendSuggestion(profile, status)
   }
 }

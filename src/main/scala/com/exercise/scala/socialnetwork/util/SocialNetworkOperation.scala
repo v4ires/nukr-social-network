@@ -1,16 +1,18 @@
 package com.exercise.scala.socialnetwork.util
 
-import scala.collection.mutable.{ArrayBuffer, HashMap, ListMap}
+import scala.collection.mutable.ListMap
 
-abstract class SocialNetworkOperation[A, B] {
+abstract class SocialNetworkOperation[A] {
 
-  def makeId(a: A, graph: ArrayBuffer[B]): Long
+  def findProfile(id: Long): A
 
-  def addProfile(a: A, graph: ArrayBuffer[B]): Boolean
+  def makeId(a: A): Long
+
+  def addProfile(a: A): Boolean
 
   def conectProfile(a: A, b: A): Boolean
 
-  def friendSuggestion(a: A, graph: ArrayBuffer[B]): ListMap[String, Long]
+  def friendSuggestion(a: A): ListMap[String, Long]
 
-  def enableFriendSuggestion(a: A, status: Boolean, graph: ArrayBuffer[B]): Boolean
+  def enableFriendSuggestion(a: A, status: Boolean): Boolean
 }
