@@ -61,11 +61,10 @@ object ProfileOperations extends SocialNetworkOperation[Profile] {
     */
   override def friendSuggestion(a: Profile): ListMap[String, Long] = {
     var count_helper = new HashMap[String, Long]()
-    var notFrieds = DataRepository.graph.clone.-=(a).
-      filter(g => a.friends.filter(af => af.id == g.id && g.friendSuggestion).isEmpty)
-    notFrieds
-      .foreach(nf => count_helper.put(nf.name, nf.friends.count(x => !a.friends.filter(af => af.id == x.id).isEmpty)))
-    ListMap(count_helper.toSeq.sortWith(_._1 > _._1): _*)
+    var temp_graph = DataRepository.graph.clone.filterNot(g => g.id == a.id)
+    var notFrieds = temp_graph.filter(g => a.friends.filter(af => af.id == g.id).isEmpty && g.friendSuggestion)
+    notFrieds.foreach(nf => count_helper.put(nf.name, nf.friends.count(x => a.friends.filter(af => af.id == x.id).nonEmpty)))
+    ListMap(count_helper.toSeq.sortWith(_._2 > _._2): _*)
   }
 
   /**

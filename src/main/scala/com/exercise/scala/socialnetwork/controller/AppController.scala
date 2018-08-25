@@ -39,11 +39,15 @@ class AppController {
       val p2 = ProfileOperations.findProfile(jsonObject.get("_id2").getAsLong)
 
       if (p1 != null && p2 != null) {
-        if (p1.id != p2.id) {
-          ProfileOperations.conectProfile(p1, p2)
-          s"the profiles ${p1.name} and ${p2.name} is now connected..."
+        if (p1.friends.filter(p => p.id == p2.id).nonEmpty) {
+          s"${p1.name} and ${p2.name} already friends"
         } else {
-          throw new FriendLoopException
+          if (p1.id != p2.id) {
+            ProfileOperations.conectProfile(p1, p2)
+            s"the profiles ${p1.name} and ${p2.name} is now connected..."
+          } else {
+            throw new FriendLoopException
+          }
         }
       } else {
         s"the profile id = ${p1.id} or/and ${p2.id} doesn't exist..."
@@ -61,10 +65,15 @@ class AppController {
     */
   @PostMapping(path = Array("/suggested/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def suggestedFriends(@RequestBody raw_json: String): String = {
-    val json_input = new JsonParser().parse(raw_json).getAsJsonObject
-    val profile = ProfileOperations.findProfile(json_input.get("_id1").getAsLong)
-    val listMap = ProfileOperations.friendSuggestion(profile)
-    listMap.toString()
+    try {
+      val json_input = new JsonParser().parse(raw_json).getAsJsonObject
+      val profile = ProfileOperations.findProfile(json_input.get("_id1").getAsLong)
+      val listMap = ProfileOperations.friendSuggestion(profile)
+      listMap.toString()
+    } catch {
+      case e: NoSuchElementException => "profile not found"
+      case e: Exception => "Error 500"
+    }
   }
 
   /**
