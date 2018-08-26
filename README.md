@@ -129,7 +129,7 @@ Finally, Figure 8 illustrates the operation of ```enable/disable``` friends sugg
 
 ### API Documentation
 
-### JavaDocs
+### Scala Docs
 
 ### Libraries and Licenses
 
