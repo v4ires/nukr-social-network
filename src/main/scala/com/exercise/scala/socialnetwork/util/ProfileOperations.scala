@@ -18,6 +18,15 @@ object ProfileOperations extends SocialNetworkOperation[Profile] {
 
   /**
     *
+    * @param name
+    * @return
+    */
+  override def findProfile(name: String): Profile = {
+    DataRepository.graph.find(p => p.name == name).get
+  }
+
+  /**
+    *
     * @param a
     * @return
     */

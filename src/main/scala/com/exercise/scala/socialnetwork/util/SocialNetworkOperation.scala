@@ -6,6 +6,8 @@ abstract class SocialNetworkOperation[A] {
 
   def findProfile(id: Long): A
 
+  def findProfile(name: String): A
+
   def makeId(a: A): Long
 
   def addProfile(a: A): Boolean

@@ -19,10 +19,14 @@ class AppController {
     */
   @PostMapping(path = Array("/add/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def addProfile(@RequestBody profile: String): String = {
-    val new_profile = new Gson().fromJson(profile, classOf[Profile])
-    val check: Boolean = ProfileOperations.addProfile(new_profile)
-    if (check) s"Profile ${new_profile.name} inserted..."
-    else s"Profile ${new_profile.name} isn't inserted..."
+    try {
+      val new_profile = new Gson().fromJson(profile, classOf[Profile])
+      val check: Boolean = ProfileOperations.addProfile(new_profile)
+      if (check) s"Profile ${new_profile.name} inserted..."
+      else s"Profile ${new_profile.name} isn't inserted..."
+    } catch {
+      case e: Exception => "ERRO 500"
+    }
   }
 
   /**
@@ -91,7 +95,7 @@ class AppController {
     * @return
     */
   @PostMapping(path = Array("/edit/profile/friend/suggestion"), produces = Array("text/plain"), consumes = Array("application/json"))
-  def friendSuggestion(@RequestBody raw_json: String): Boolean = {
+  def enableFriendSuggestion(@RequestBody raw_json: String): Boolean = {
     val json_input: JsonObject = new JsonParser().parse(raw_json).getAsJsonObject
     val profile: Profile = ProfileOperations.findProfile(json_input.get("_id1").getAsLong)
     val status: Boolean = json_input.get("status").getAsBoolean

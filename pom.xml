@@ -2,11 +2,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
-    <artifactId>nubank-software-engineering-challenge</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <groupId>com.exercise.scala.socialnetwork</groupId>
+    <artifactId>nukr-social-network</artifactId>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
-    <name>scala-maven-template</name>
+    <name>nukr-social-network</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,35 +14,36 @@
     </properties>
 
     <dependencies>
+
+        <!-- Scala Lang Dependency -->
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>2.12.6</version>
         </dependency>
 
+        <!-- GSON: JSON Parser -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.5</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.6</version>
-        </dependency>
 
+        <!-- Log Manager Dependency -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.1.2</version>
         </dependency>
 
+        <!-- Spring: Web Framework -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.0.4.RELEASE</version>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -66,6 +67,19 @@
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>com.exercise.scala.socialnetwork.Main</mainClass>
+                            </manifest>
+                        </archive>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
                     </configuration>
                 </plugin>
             </plugins>
