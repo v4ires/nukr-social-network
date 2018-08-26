@@ -1,21 +1,25 @@
 package com.exercise.scala.socialnetwork.controller
 
 import com.exercise.scala.socialnetwork.model.Profile
-import com.exercise.scala.socialnetwork.respository.DataRepository
 import com.exercise.scala.socialnetwork.util.ProfileOperations
 import com.google.gson.{Gson, JsonObject, JsonParser}
 import org.springframework.web.bind.annotation._
 
+/**
+  * <h1> AppController </h1>
+  * A Spring RestController class that provides the endpoints of the Nukr - Social Network.
+  *
+  * @version 0.0.1
+  */
 @RestController
 @RequestMapping(path = Array("/api"))
 class AppController {
 
-  class FriendLoopException extends Exception("the same profile cannot add as friend")
-
   /**
+    * A Post Method that receives of a profile in JSON and adds in the social network (graph).
     *
-    * @param profile
-    * @return
+    * @param profile A JSON string with the content of a new profile.
+    * @return String The status of this operation.
     */
   @PostMapping(path = Array("/add/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def addProfile(@RequestBody profile: String): String = {
@@ -30,9 +34,10 @@ class AppController {
   }
 
   /**
+    * A Post Method that receives a JSON file with two profiles id and makes the friendship between then.
     *
-    * @param raw_json
-    * @return
+    * @param raw_json A JSON String with the content of two profile's id (_id1 and _id2).
+    * @return String The status of this operation.
     */
   @PostMapping(path = Array("/connect/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def connectProfile(@RequestBody raw_json: String): String = {
@@ -63,9 +68,10 @@ class AppController {
   }
 
   /**
+    * A Post Method that gets the suggested friends of a specific profile.
     *
-    * @param raw_json
-    * @return
+    * @param raw_json A JSON string with the profile's id of the profile that requests the suggested friends.
+    * @return String The status of this operation.
     */
   @PostMapping(path = Array("/suggested/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def suggestedFriends(@RequestBody raw_json: String): String = {
@@ -81,24 +87,19 @@ class AppController {
   }
 
   /**
+    * A Post Method that permits to enable or disable the friend suggestion operation of a specific profile.
     *
-    * @return
-    */
-  @GetMapping(path = Array("/show/profile"))
-  def showProfile: String = {
-    if (!DataRepository.graph.isEmpty) new Gson().toJson(DataRepository.graph)
-    else "social network empty"
-  }
-
-  /**
-    *
-    * @return
+    * @return The status of this operation.
     */
   @PostMapping(path = Array("/edit/profile/friend/suggestion"), produces = Array("text/plain"), consumes = Array("application/json"))
-  def enableFriendSuggestion(@RequestBody raw_json: String): Boolean = {
+  def enableFriendSuggestion(@RequestBody raw_json: String): String = {
     val json_input: JsonObject = new JsonParser().parse(raw_json).getAsJsonObject
     val profile: Profile = ProfileOperations.findProfile(json_input.get("_id1").getAsLong)
     val status: Boolean = json_input.get("status").getAsBoolean
-    ProfileOperations.enableFriendSuggestion(profile, status)
+    val operation_status = ProfileOperations.enableFriendSuggestion(profile, status)
+    if (operation_status) s"the friend suggestion of profile ${profile.name} has been changed"
+    else s"the friend suggestion of profile ${profile.name} isn't changed"
   }
+
+  class FriendLoopException extends Exception("the same profile cannot add as friend")
 }

@@ -9,6 +9,13 @@ import org.springframework.context.annotation.{ComponentScan, Configuration}
 @ComponentScan
 class Config
 
+/**
+  * <h1> Main </h1>
+  *
+  * The Main class of Spring Application (Nukr - Social Network).
+  *
+  * @version 0.0.1
+  */
 object Main extends App {
   SpringApplication.run(classOf[Config])
 }
