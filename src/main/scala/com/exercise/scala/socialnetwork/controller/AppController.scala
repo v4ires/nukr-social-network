@@ -43,8 +43,8 @@ class AppController {
   def connectProfile(@RequestBody body: String): String = {
     try {
       val jsonObject = new JsonParser().parse(body).getAsJsonObject
-      val p1 = ops.findProfile(jsonObject.get("_user_id_1").getAsLong)
-      val p2 = ops.findProfile(jsonObject.get("_user_id_2").getAsLong)
+      val p1 = ops.findProfile(jsonObject.get("_profile_id_1").getAsLong)
+      val p2 = ops.findProfile(jsonObject.get("_profile_id_2").getAsLong)
       ops.conectProfile(p1, p2)
     } catch {
       case e: NoSuchElementException => "Profile not found."
@@ -62,7 +62,7 @@ class AppController {
   def suggestedFriends(@RequestBody raw_json: String): String = {
     try {
       val json_input = new JsonParser().parse(raw_json).getAsJsonObject
-      val profile = ops.findProfile(json_input.get("_user_id").getAsLong)
+      val profile = ops.findProfile(json_input.get("_profile_id").getAsLong)
       ops.friendSuggestion(profile)
     } catch {
       case e: NoSuchElementException => "Profile not found."
@@ -79,7 +79,7 @@ class AppController {
   def enableFriendSuggestion(@RequestBody raw_json: String): String = {
     try {
       val json_input: JsonObject = new JsonParser().parse(raw_json).getAsJsonObject
-      val profile: Profile = ops.findProfile(json_input.get("_user_id").getAsLong)
+      val profile: Profile = ops.findProfile(json_input.get("_profile_id").getAsLong)
       val new_status: Boolean = json_input.get("status").getAsBoolean
       ops.enableFriendSuggestion(profile, new_status)
     } catch {

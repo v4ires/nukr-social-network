@@ -44,6 +44,21 @@
             <version>2.0.4.RELEASE</version>
         </dependency>
 
+        <!-- Scala Logging -->
+        <dependency>
+            <groupId>com.typesafe.scala-logging</groupId>
+            <artifactId>scala-logging-slf4j_2.11</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
+        <!-- Scala Test -->
+        <dependency>
+            <groupId>org.scalatest</groupId>
+            <artifactId>scalatest_2.12</artifactId>
+            <version>3.2.0-SNAP10</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

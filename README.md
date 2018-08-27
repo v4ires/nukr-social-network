@@ -127,9 +127,27 @@ Finally, Figure 8 illustrates the operation of ```enable/disable``` friends sugg
 
 ### Unit Tests
 
+All unit tests can be found in the ```/test``` folder. To run the unit test, just run the command:
+
+```bash
+mvn test
+```
+
 ### API Documentation
 
+The API was written with Swagger 2. To access the documentation enter the following URL in your browser:
+
+```
+localhost:8080/doc/swagger
+```
+
 ### Scala Docs
+
+All classes and methods are documented with the Scala Docs Pattern. To access the Scala Docs documentation enter the following URL in your browser:
+
+```
+localhost:8080/doc/scaladocs
+```
 
 ### Libraries and Licenses
 
@@ -143,7 +161,7 @@ Table 1 exposes the set of libraries used, describing your versions and licenses
 |      scala-library      |     2.12.6    |        BSD 3-clause       |
 |           gson          |     2.8.5     |         Apache 2.0        |
 |     logback-classic     |     1.1.2     | EPL v1.0 and the LGPL 2.1 |
-| spring-boot-starter-web | 2.0.4.RELEASE |           Apache 2.0      |
+| spring-boot-starter-web | 2.0.4.RELEASE |         Apache 2.0        |
 
 </center>
 
