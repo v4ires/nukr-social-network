@@ -16,6 +16,6 @@ class Config
   *
   * @version 0.0.1
   */
-object Main extends App {
+object MainSpring extends App {
   SpringApplication.run(classOf[Config])
 }

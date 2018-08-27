@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation._
 @RequestMapping(path = Array("/api"))
 class AppController {
 
+  val ops: ProfileOperations = new ProfileOperations
+
   /**
     * A Post Method that receives of a profile in JSON and adds in the social network (graph).
     *
@@ -25,11 +27,9 @@ class AppController {
   def addProfile(@RequestBody profile: String): String = {
     try {
       val new_profile = new Gson().fromJson(profile, classOf[Profile])
-      val check: Boolean = ProfileOperations.addProfile(new_profile)
-      if (check) s"Profile ${new_profile.name} inserted..."
-      else s"Profile ${new_profile.name} isn't inserted..."
+      ops.addProfile(new_profile)
     } catch {
-      case e: Exception => "ERRO 500"
+      case e: Exception => "ERRO 500: Internal server error."
     }
   }
 
@@ -40,30 +40,15 @@ class AppController {
     * @return String The status of this operation.
     */
   @PostMapping(path = Array("/connect/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
-  def connectProfile(@RequestBody raw_json: String): String = {
-
+  def connectProfile(@RequestBody body: String): String = {
     try {
-      val jsonObject = new JsonParser().parse(raw_json).getAsJsonObject
-      val p1 = ProfileOperations.findProfile(jsonObject.get("_id1").getAsLong)
-      val p2 = ProfileOperations.findProfile(jsonObject.get("_id2").getAsLong)
-
-      if (p1 != null && p2 != null) {
-        if (p1.friends.filter(p => p.id == p2.id).nonEmpty) {
-          s"${p1.name} and ${p2.name} already friends"
-        } else {
-          if (p1.id != p2.id) {
-            ProfileOperations.conectProfile(p1, p2)
-            s"the profiles ${p1.name} and ${p2.name} is now connected..."
-          } else {
-            throw new FriendLoopException
-          }
-        }
-      } else {
-        s"the profile id = ${p1.id} or/and ${p2.id} doesn't exist..."
-      }
+      val jsonObject = new JsonParser().parse(body).getAsJsonObject
+      val p1 = ops.findProfile(jsonObject.get("_user_id_1").getAsLong)
+      val p2 = ops.findProfile(jsonObject.get("_user_id_2").getAsLong)
+      ops.conectProfile(p1, p2)
     } catch {
-      case e: FriendLoopException => e.getMessage
-      case e: Exception => "ERRO 500"
+      case e: NoSuchElementException => "Profile not found."
+      case e: Exception => "ERRO 500: Internal server error."
     }
   }
 
@@ -77,12 +62,11 @@ class AppController {
   def suggestedFriends(@RequestBody raw_json: String): String = {
     try {
       val json_input = new JsonParser().parse(raw_json).getAsJsonObject
-      val profile = ProfileOperations.findProfile(json_input.get("_id1").getAsLong)
-      val listMap = ProfileOperations.friendSuggestion(profile)
-      listMap.toString()
+      val profile = ops.findProfile(json_input.get("_user_id").getAsLong)
+      ops.friendSuggestion(profile)
     } catch {
-      case e: NoSuchElementException => "profile not found"
-      case e: Exception => "Error 500"
+      case e: NoSuchElementException => "Profile not found."
+      case e: Exception => "ERRO 500: Internal server error."
     }
   }
 
@@ -93,13 +77,14 @@ class AppController {
     */
   @PostMapping(path = Array("/edit/profile/friend/suggestion"), produces = Array("text/plain"), consumes = Array("application/json"))
   def enableFriendSuggestion(@RequestBody raw_json: String): String = {
-    val json_input: JsonObject = new JsonParser().parse(raw_json).getAsJsonObject
-    val profile: Profile = ProfileOperations.findProfile(json_input.get("_id1").getAsLong)
-    val status: Boolean = json_input.get("status").getAsBoolean
-    val operation_status = ProfileOperations.enableFriendSuggestion(profile, status)
-    if (operation_status) s"the friend suggestion of profile ${profile.name} has been changed"
-    else s"the friend suggestion of profile ${profile.name} isn't changed"
+    try {
+      val json_input: JsonObject = new JsonParser().parse(raw_json).getAsJsonObject
+      val profile: Profile = ops.findProfile(json_input.get("_user_id").getAsLong)
+      val new_status: Boolean = json_input.get("status").getAsBoolean
+      ops.enableFriendSuggestion(profile, new_status)
+    } catch {
+      case e: NoSuchElementException => "Profile not found."
+      case e: Exception => "ERRO 500: Internal server error."
+    }
   }
-
-  class FriendLoopException extends Exception("the same profile cannot add as friend")
 }

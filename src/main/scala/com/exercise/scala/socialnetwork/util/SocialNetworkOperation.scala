@@ -1,5 +1,7 @@
 package com.exercise.scala.socialnetwork.util
 
+import com.exercise.scala.socialnetwork.model.Profile
+
 import scala.collection.mutable.ListMap
 
 /**
@@ -48,7 +50,7 @@ abstract class SocialNetworkOperation[A] {
     * @param a A new Profile that you want to add in the graph.
     * @return Boolean The status of the execution of this operation.
     */
-  def addProfile(a: A): Boolean
+  def addProfile(a: A): String
 
   /**
     * A method that connects to profiles as a friend.
@@ -57,7 +59,7 @@ abstract class SocialNetworkOperation[A] {
     * @param b The Second Profile.
     * @return Boolean The status of the execution of this operation [true or false].
     */
-  def conectProfile(a: A, b: A): Boolean
+  def conectProfile(a: A, b: A): String
 
   /**
     * A method that performs the recommendation of suggestion friends by the number of mutual friends.
@@ -65,7 +67,7 @@ abstract class SocialNetworkOperation[A] {
     * @param a The Profile that needs to get the friends suggestion.
     * @return ListMap[String, Long] A sorted ListMap of the name of suggested friends and the number of mutual friends.
     */
-  def friendSuggestion(a: A): ListMap[String, Long]
+  def friendSuggestion(a: A): String
 
   /**
     * A method that enables/disables the friend suggestion recommendation to a specific profile.
@@ -74,5 +76,14 @@ abstract class SocialNetworkOperation[A] {
     * @param status A Boolean that change the friendSuggestion status to true or false.
     * @return Boolean The status of the execution of this operation.
     */
-  def enableFriendSuggestion(a: A, status: Boolean): Boolean
+  def enableFriendSuggestion(a: A, status: Boolean): String
+
+  /**
+    * A method that make a json output of the list of suggested friends
+    *
+    * @param a       User Profile
+    * @param listMap ListMap of profiles names and the number of mutual friends
+    * @return JSON String
+    */
+  def makeSuggestedFriendsJSON(a: Profile, listMap: ListMap[String, Long]): String
 }
