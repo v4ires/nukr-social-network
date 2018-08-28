@@ -36,22 +36,10 @@ The Nukr was built in the Maven project structure, and has the following directo
 
 Also, the Maven was used for the management of dependencies of this project. 
 
-For the installation of Nukr, just run the following command:
+To run Nukr - Social Network, just run the following command:
 
 ```sh
-mvn clean compile assembly:single
-```
-
-This command build the project and generate a single jar with all dependencies, located in the directory:
-
-```sh
-../target/nukr-social-network-0.0.1-jar-with-dependencies.jar
-```
-
-To run the Nukr, just run the command:
-
-```sh
-java -jar nukr-social-network-0.0.1-jar-with-dependencies.jar
+mvn spring-boot:run
 ```
 
 ## How it Works
