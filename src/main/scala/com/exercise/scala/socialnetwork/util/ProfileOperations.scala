@@ -4,7 +4,7 @@ import com.exercise.scala.socialnetwork.model._
 import com.exercise.scala.socialnetwork.respository._
 import com.google.gson.{Gson, JsonArray, JsonObject}
 
-import scala.collection.mutable.{HashMap, ListMap}
+import scala.collection.mutable.{ArrayBuffer, HashMap, ListMap}
 
 /**
   * <h1>ProfileOperations</h1>
@@ -48,11 +48,10 @@ class ProfileOperations extends SocialNetworkOperation[Profile] {
     */
   override def addProfile(a: Profile): String = {
     if (a != null && DataRepository.graph.filter(g => g.id == a.id).isEmpty) {
-      a.id_=(makeId(a))
       DataRepository.graph += a
       s"Profile ${a.name} inserted..."
     }
-    else s"Profile ${a.name} isn't inserted..."
+    else "The profile isn't inserted..."
   }
 
   /**
@@ -61,7 +60,7 @@ class ProfileOperations extends SocialNetworkOperation[Profile] {
     * @param a A Profile that needs to generate a new incremental Id in the graph.
     * @return Long The next valid and incremental id in the graph.
     */
-  override def makeId(a: Profile): Long = {
+  override def generateNewId(): Long = {
     if (DataRepository.graph.isEmpty) 1L
     else DataRepository.graph.last.id + 1L
   }
@@ -82,8 +81,35 @@ class ProfileOperations extends SocialNetworkOperation[Profile] {
           s"The profiles ${a.name} and ${b.name} is now connected."
         } else s"The profiles ${a.name} and ${b.name} already friends."
       } else "The profile cannot as self friend."
-    } else s"the profile id = ${a.id} or/and ${b.id} doesn't exist..."
+    } else "The profiles doesn't exist."
   }
+
+
+  /**
+    * A method that returns the non-friends of a profile.
+    *
+    * @param a
+    * @return
+    */
+  override def notFriends(a: Profile): ArrayBuffer[Profile] = {
+    var temp_graph = DataRepository.graph.filterNot(g => g.id == a.id)
+    var notFrieds = temp_graph.filter(g => a.friends.filter(af => af.id == g.id).isEmpty && g.friendSuggestion)
+    notFrieds
+  }
+
+  /**
+    * A method that counts the number of mutual friends of a set of non-friend profiles.
+    *
+    * @param a
+    * @return
+    */
+  override def mutualFriendCounter(a: Profile): ListMap[String, Long] = {
+    var count_helper = new HashMap[String, Long]()
+    notFriends(a).foreach(nf => count_helper.put(nf.name, nf.friends.count(x => a.friends.filter(af => af.id == x.id).nonEmpty)))
+    val listMap: ListMap[String, Long] = ListMap(count_helper.filterNot(ch => ch._2 == 0).toSeq.sortWith(_._1 > _._1): _*)
+    listMap
+  }
+
 
   /**
     * A method that performs the recommendation of suggestion friends by the number of mutual friends.
@@ -92,12 +118,7 @@ class ProfileOperations extends SocialNetworkOperation[Profile] {
     * @return ListMap[String, Long] A sorted ListMap of the name of suggested friends and the number of mutual friends.
     */
   override def friendSuggestion(a: Profile): String = {
-    var count_helper = new HashMap[String, Long]()
-    var temp_graph = DataRepository.graph.clone.filterNot(g => g.id == a.id)
-    var notFrieds = temp_graph.filter(g => a.friends.filter(af => af.id == g.id).isEmpty && g.friendSuggestion)
-    notFrieds.foreach(nf => count_helper.put(nf.name, nf.friends.count(x => a.friends.filter(af => af.id == x.id).nonEmpty)))
-    val listMap: ListMap[String, Long] = ListMap(count_helper.filterNot(ch => ch._2 == 0).toSeq.sortWith(_._1 > _._1): _*)
-    makeSuggestedFriendsJSON(a, listMap)
+    makeSuggestedFriendsJSON(a, mutualFriendCounter(a))
   }
 
   /**
@@ -131,6 +152,7 @@ class ProfileOperations extends SocialNetworkOperation[Profile] {
       temp.addProperty("mutual_friends", sl._2)
       jsonArray.add(temp)
     })
+
     jsonObject.add("suggested_friends", jsonArray)
     new Gson().toJson(jsonObject)
   }

@@ -2,7 +2,7 @@ package com.exercise.scala.socialnetwork.util
 
 import com.exercise.scala.socialnetwork.model.Profile
 
-import scala.collection.mutable.ListMap
+import scala.collection.mutable.{ArrayBuffer, ListMap}
 
 /**
   * <h1>SocialNetworkOperation</h1>
@@ -42,7 +42,7 @@ abstract class SocialNetworkOperation[A] {
     * @param a A Profile that needs to generate a new incremental Id in the graph.
     * @return Long The next valid and incremental id in the graph.
     */
-  def makeId(a: A): Long
+  def generateNewId(): Long
 
   /**
     * A method that performs to add a new profile in the social network (graph).
@@ -60,6 +60,22 @@ abstract class SocialNetworkOperation[A] {
     * @return Boolean The status of the execution of this operation [true or false].
     */
   def conectProfile(a: A, b: A): String
+
+  /**
+    * A method that returns the non-friends of a profile.
+    *
+    * @param a
+    * @return
+    */
+  def notFriends(a: A): ArrayBuffer[A]
+
+  /**
+    * A method that counts the number of mutual friends of a set of non-friend profiles.
+    *
+    * @param a
+    * @return
+    */
+  def mutualFriendCounter(a: A): ListMap[String, Long]
 
   /**
     * A method that performs the recommendation of suggestion friends by the number of mutual friends.

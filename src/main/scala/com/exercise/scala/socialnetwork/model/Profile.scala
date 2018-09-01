@@ -1,5 +1,6 @@
 package com.exercise.scala.socialnetwork.model
 
+import com.exercise.scala.socialnetwork.util.ProfileOperations
 import com.google.gson.annotations.Expose
 
 import scala.collection.mutable.ArrayBuffer
@@ -11,13 +12,11 @@ import scala.collection.mutable.ArrayBuffer
   *
   * @version 0.0.1
   */
-case class Profile() {
+case class Profile(var _name: String,
+                   var _friendSuggestion: Boolean = false) {
 
-  @Expose private var _id: Long = 0
+  @Expose private var _id: Long = new ProfileOperations().generateNewId()
   @Expose private var _friends: ArrayBuffer[Profile] = new ArrayBuffer[Profile]()
-
-  private var _name: String = ""
-  private var _friendSuggestion = false
 
   /**
     * Get method of the private variable _id.
