@@ -75,7 +75,7 @@ class ProfileOperations extends SocialNetworkOperation[Profile] {
   override def conectProfile(a: Profile, b: Profile): String = {
     if (a != null && b != null) {
       if (a.id != b.id) {
-        if (a.friends.filter(fp => fp.id == b.id).isEmpty) {
+        if (a.friends != null && a.friends.filter(fp => fp.id == b.id).isEmpty) {
           a.friends += b
           b.friends += a
           s"The profiles ${a.name} and ${b.name} is now connected."
@@ -105,7 +105,8 @@ class ProfileOperations extends SocialNetworkOperation[Profile] {
     */
   override def mutualFriendCounter(a: Profile): ListMap[String, Long] = {
     var count_helper = new HashMap[String, Long]()
-    notFriends(a).foreach(nf => count_helper.put(nf.name, nf.friends.count(x => a.friends.filter(af => af.id == x.id).nonEmpty)))
+    var notFriendsList = notFriends(a)
+    notFriendsList.foreach(nf => count_helper.put(nf.name, nf.friends.count(x => a.friends.filter(af => af.id == x.id).nonEmpty)))
     val listMap: ListMap[String, Long] = ListMap(count_helper.filterNot(ch => ch._2 == 0).toSeq.sortWith(_._1 > _._1): _*)
     listMap
   }
@@ -118,7 +119,11 @@ class ProfileOperations extends SocialNetworkOperation[Profile] {
     * @return ListMap[String, Long] A sorted ListMap of the name of suggested friends and the number of mutual friends.
     */
   override def friendSuggestion(a: Profile): String = {
-    makeSuggestedFriendsJSON(a, mutualFriendCounter(a))
+    if (a.friends != null && a.friends.nonEmpty) {
+      if (a.friendSuggestion) makeSuggestedFriendsJSON(a, mutualFriendCounter(a))
+      else s"The profile ${a.name} cannot receive suggested friends because the friend suggestion feature is disabled."
+    }
+    else s"The profile ${a.name} does not have friends."
   }
 
   /**
@@ -130,7 +135,7 @@ class ProfileOperations extends SocialNetworkOperation[Profile] {
     */
   override def enableFriendSuggestion(a: Profile, status: Boolean): String = {
     a.friendSuggestion_=(status)
-    s"the friend suggestion of profile ${a.name} has been changed"
+    s"The friend suggestion of profile ${a.name} has been changed."
   }
 
   /**

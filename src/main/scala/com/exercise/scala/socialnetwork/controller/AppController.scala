@@ -2,8 +2,11 @@ package com.exercise.scala.socialnetwork.controller
 
 import com.exercise.scala.socialnetwork.model.Profile
 import com.exercise.scala.socialnetwork.util.ProfileOperations
-import com.google.gson.{Gson, JsonObject, JsonParser}
+import com.google.gson.{Gson, JsonParser}
+import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation._
+
+import scala.collection.mutable.ArrayBuffer
 
 /**
   * <h1> AppController </h1>
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation._
 @RequestMapping(path = Array("/api"))
 class AppController {
 
+  def log = LoggerFactory.getLogger(this.getClass.getName.replace("$", ""))
+
   val ops: ProfileOperations = new ProfileOperations
 
   /**
@@ -25,11 +30,20 @@ class AppController {
     */
   @PostMapping(path = Array("/add/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def addProfile(@RequestBody profile: String): String = {
+    var msg = ""
     try {
       val new_profile = new Gson().fromJson(profile, classOf[Profile])
-      ops.addProfile(new_profile)
+      new_profile.id_=(ops.generateNewId())
+      new_profile.friends_=(new ArrayBuffer[Profile]())
+      msg = ops.addProfile(new_profile)
+      log.info(msg)
+      msg
     } catch {
-      case e: Exception => "ERRO 500: Internal server error."
+      case e: Exception => {
+        msg = "ERRO 500: Internal server error."
+        log.error(msg)
+        msg
+      }
     }
   }
 
@@ -41,14 +55,27 @@ class AppController {
     */
   @PostMapping(path = Array("/connect/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def connectProfile(@RequestBody body: String): String = {
+    var msg = ""
     try {
       val jsonObject = new JsonParser().parse(body).getAsJsonObject
-      val p1 = ops.findProfile(jsonObject.get("_profile_id_1").getAsLong)
-      val p2 = ops.findProfile(jsonObject.get("_profile_id_2").getAsLong)
-      ops.conectProfile(p1, p2)
+      if (jsonObject.get("_profile_id_1") != null && jsonObject.get("_profile_id_2") != null && jsonObject.keySet().toArray.length == 2) {
+        val p1 = ops.findProfile(jsonObject.get("_profile_id_1").getAsLong)
+        val p2 = ops.findProfile(jsonObject.get("_profile_id_2").getAsLong)
+        msg = ops.conectProfile(p1, p2)
+      } else msg = s"The JSON Key is invalid."
+      log.info(msg)
+      msg
     } catch {
-      case e: NoSuchElementException => "Profile not found."
-      case e: Exception => "ERRO 500: Internal server error."
+      case e: NoSuchElementException => {
+        msg = "Profile not found."
+        log.error(msg)
+        msg
+      }
+      case e: Exception => {
+        msg = "ERRO 500: Internal server error."
+        log.error(msg)
+        msg
+      }
     }
   }
 
@@ -60,13 +87,26 @@ class AppController {
     */
   @PostMapping(path = Array("/suggested/profile"), produces = Array("text/plain"), consumes = Array("application/json"))
   def suggestedFriends(@RequestBody raw_json: String): String = {
+    var msg = ""
     try {
-      val json_input = new JsonParser().parse(raw_json).getAsJsonObject
-      val profile = ops.findProfile(json_input.get("_profile_id").getAsLong)
-      ops.friendSuggestion(profile)
+      val jsonObject = new JsonParser().parse(raw_json).getAsJsonObject
+      if (jsonObject.get("_profile_id") != null && jsonObject.keySet().toArray.length == 1) {
+        val profile = ops.findProfile(jsonObject.get("_profile_id").getAsLong)
+        msg = ops.friendSuggestion(profile)
+      } else msg = s"The JSON Key is invalid."
+      log.info(msg)
+      msg
     } catch {
-      case e: NoSuchElementException => "Profile not found."
-      case e: Exception => "ERRO 500: Internal server error."
+      case e: NoSuchElementException => {
+        msg = "Profile not found."
+        log.error(msg)
+        msg
+      }
+      case e: Exception => {
+        msg = "ERRO 500: Internal server error."
+        log.error(msg)
+        msg
+      }
     }
   }
 
@@ -77,14 +117,27 @@ class AppController {
     */
   @PostMapping(path = Array("/edit/profile/friend/suggestion"), produces = Array("text/plain"), consumes = Array("application/json"))
   def enableFriendSuggestion(@RequestBody raw_json: String): String = {
+    var msg = ""
     try {
-      val json_input: JsonObject = new JsonParser().parse(raw_json).getAsJsonObject
-      val profile: Profile = ops.findProfile(json_input.get("_profile_id").getAsLong)
-      val new_status: Boolean = json_input.get("status").getAsBoolean
-      ops.enableFriendSuggestion(profile, new_status)
+      val jsonObject = new JsonParser().parse(raw_json).getAsJsonObject
+      if (jsonObject.get("_profile_id") != null && jsonObject.get("_friend_suggestion") != null && jsonObject.keySet().toArray.length == 2) {
+        val profile: Profile = ops.findProfile(jsonObject.get("_profile_id").getAsLong)
+        val new_status: Boolean = jsonObject.get("_friend_suggestion").getAsBoolean
+        msg = ops.enableFriendSuggestion(profile, new_status)
+      } else msg = s"The JSON Key is invalid."
+      log.info(msg)
+      msg
     } catch {
-      case e: NoSuchElementException => "Profile not found."
-      case e: Exception => "ERRO 500: Internal server error."
+      case e: NoSuchElementException => {
+        msg = "Profile not found."
+        log.error(msg)
+        msg
+      }
+      case e: Exception => {
+        msg = "ERRO 500: Internal server error."
+        log.error(msg)
+        msg
+      }
     }
   }
 }

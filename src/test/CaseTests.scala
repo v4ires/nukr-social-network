@@ -3,6 +3,8 @@ import com.exercise.scala.socialnetwork.util._
 import junit.framework.TestCase
 import org.junit.Assert
 
+import scala.collection.mutable.ArrayBuffer
+
 class CaseTests extends TestCase {
 
   var ops: ProfileOperations = _
@@ -21,12 +23,14 @@ class CaseTests extends TestCase {
 
   def testConnectProfiles: Unit = {
 
-    var p1 = new Profile(_name = "Vinícius Aires Barros", _friendSuggestion = true)
+    var p1 = new Profile(_name = "Profile 1", _friendSuggestion = true)
     p1.id_=(ops.generateNewId())
+    p1.friends_=(new ArrayBuffer[Profile]())
     ops.addProfile(p1)
 
-    var p2 = new Profile(_name = "Larissa Aires Santana", _friendSuggestion = true)
+    var p2 = new Profile(_name = "Profile 2", _friendSuggestion = true)
     p2.id_=(ops.generateNewId())
+    p2.friends_=(new ArrayBuffer[Profile]())
     ops.addProfile(p2)
 
     Assert.assertEquals(ops.conectProfile(p1, p2), s"The profiles ${p1.name} and ${p2.name} is now connected.")
@@ -44,14 +48,15 @@ class CaseTests extends TestCase {
 
   def testSuggestedFriends(): Unit = {
 
-    var p1 = new Profile(_name = "A", _friendSuggestion = true)
-    var p2 = new Profile(_name = "B", _friendSuggestion = true)
-    var p3 = new Profile(_name = "C", _friendSuggestion = true)
-    var p4 = new Profile(_name = "D", _friendSuggestion = true)
-    var p5 = new Profile(_name = "E", _friendSuggestion = true)
+    var p1 = new Profile(_name = "1", _friendSuggestion = true)
+    var p2 = new Profile(_name = "2", _friendSuggestion = true)
+    var p3 = new Profile(_name = "3", _friendSuggestion = true)
+    var p4 = new Profile(_name = "4", _friendSuggestion = true)
+    var p5 = new Profile(_name = "5", _friendSuggestion = true)
 
     List(p1, p2, p3, p4, p5).foreach(p => {
       p.id_=(ops.generateNewId())
+      p.friends_=(new ArrayBuffer[Profile]())
       ops.addProfile(p)
     })
 
@@ -62,11 +67,11 @@ class CaseTests extends TestCase {
     ops.conectProfile(p4, p5)
     ops.conectProfile(p5, p3)
 
-    Assert.assertEquals(ops.friendSuggestion(p1), "{\"profile_id\":1,\"profile_name\":\"A\",\"suggested_friends\":[{\"profile_name\":\"D\",\"mutual_friends\":2},{\"profile_name\":\"E\",\"mutual_friends\":1}]}")
-    Assert.assertEquals(ops.friendSuggestion(p2), "{\"profile_id\":2,\"profile_name\":\"B\",\"suggested_friends\":[{\"profile_name\":\"C\",\"mutual_friends\":2},{\"profile_name\":\"E\",\"mutual_friends\":1}]}")
-    Assert.assertEquals(ops.friendSuggestion(p3), "{\"profile_id\":3,\"profile_name\":\"C\",\"suggested_friends\":[{\"profile_name\":\"B\",\"mutual_friends\":2}]}")
-    Assert.assertEquals(ops.friendSuggestion(p4), "{\"profile_id\":4,\"profile_name\":\"D\",\"suggested_friends\":[{\"profile_name\":\"A\",\"mutual_friends\":2}]}")
-    Assert.assertEquals(ops.friendSuggestion(p5), "{\"profile_id\":5,\"profile_name\":\"E\",\"suggested_friends\":[{\"profile_name\":\"A\",\"mutual_friends\":1},{\"profile_name\":\"B\",\"mutual_friends\":1}]}")
+    Assert.assertEquals(ops.friendSuggestion(p1), "{\"profile_id\":1,\"profile_name\":\"1\",\"suggested_friends\":[{\"profile_name\":\"4\",\"mutual_friends\":2},{\"profile_name\":\"5\",\"mutual_friends\":1}]}")
+    Assert.assertEquals(ops.friendSuggestion(p2), "{\"profile_id\":2,\"profile_name\":\"2\",\"suggested_friends\":[{\"profile_name\":\"3\",\"mutual_friends\":2},{\"profile_name\":\"5\",\"mutual_friends\":1}]}")
+    Assert.assertEquals(ops.friendSuggestion(p3), "{\"profile_id\":3,\"profile_name\":\"3\",\"suggested_friends\":[{\"profile_name\":\"2\",\"mutual_friends\":2}]}")
+    Assert.assertEquals(ops.friendSuggestion(p4), "{\"profile_id\":4,\"profile_name\":\"4\",\"suggested_friends\":[{\"profile_name\":\"1\",\"mutual_friends\":2}]}")
+    Assert.assertEquals(ops.friendSuggestion(p5), "{\"profile_id\":5,\"profile_name\":\"5\",\"suggested_friends\":[{\"profile_name\":\"1\",\"mutual_friends\":1},{\"profile_name\":\"2\",\"mutual_friends\":1}]}")
   }
 
 }
