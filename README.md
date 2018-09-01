@@ -10,9 +10,6 @@ The primary functionalities of the Nukr, consist in the: (i) creation a new user
 The Nukr was built in the Maven project structure, and has the following directory tree:
 
 ```
-── assets
-│   ├── img
-│   └── uml
 ├── src
 │   ├── main
 │   │   ├── resources
@@ -26,12 +23,6 @@ The Nukr was built in the Maven project structure, and has the following directo
 │   │                       ├── respository
 │   │                       └── util
 │   └── test
-│       └── scala
-│           └── com
-│               └── exercise
-│                   └── scala
-│                       └── socialnetwork
-└── target
 ```
 
 Also, the Maven was used for the management of dependencies of this project. 
