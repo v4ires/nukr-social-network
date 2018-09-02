@@ -1,4 +1,5 @@
 import com.exercise.scala.socialnetwork.model._
+import com.exercise.scala.socialnetwork.respository.DataRepository
 import com.exercise.scala.socialnetwork.util._
 import junit.framework.TestCase
 import org.junit.Assert
@@ -14,6 +15,8 @@ class CaseTests extends TestCase {
   }
 
   def testAddProfile: Unit = {
+    DataRepository.graph.clear()
+
     var p = new Profile(_name = "Vinícius Aires Barros", _friendSuggestion = true)
     p.id_=(ops.generateNewId())
 
@@ -22,6 +25,7 @@ class CaseTests extends TestCase {
   }
 
   def testConnectProfiles: Unit = {
+    DataRepository.graph.clear()
 
     var p1 = new Profile(_name = "Profile 1", _friendSuggestion = true)
     p1.id_=(ops.generateNewId())
@@ -47,6 +51,7 @@ class CaseTests extends TestCase {
   }
 
   def testSuggestedFriends(): Unit = {
+    DataRepository.graph.clear()
 
     var p1 = new Profile(_name = "1", _friendSuggestion = true)
     var p2 = new Profile(_name = "2", _friendSuggestion = true)
