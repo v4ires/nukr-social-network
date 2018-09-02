@@ -1,0 +1,573 @@
+{
+	"info": {
+		"_postman_id": "6781dba9-40fb-41d8-bcd3-87d0f8f5bc0e",
+		"name": "Nukr - Social Network",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Profile 1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_name\":1,\"_friendSuggestion\":true}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/add/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"add",
+						"profile"
+					]
+				},
+				"description": "Add a new profile into the Social Network."
+			},
+			"response": []
+		},
+		{
+			"name": "Add Profile 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_name\":2,\"_friendSuggestion\":true}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/add/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"add",
+						"profile"
+					]
+				},
+				"description": "Add a new profile into the Social Network."
+			},
+			"response": []
+		},
+		{
+			"name": "Add Profile 3",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_name\":3,\"_friendSuggestion\":true}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/add/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"add",
+						"profile"
+					]
+				},
+				"description": "Add a new profile into the Social Network."
+			},
+			"response": []
+		},
+		{
+			"name": "Add Profile 4",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_name\":4,\"_friendSuggestion\":true}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/add/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"add",
+						"profile"
+					]
+				},
+				"description": "Add a new profile into the Social Network."
+			},
+			"response": []
+		},
+		{
+			"name": "Add Profile 5",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_name\":5,\"_friendSuggestion\":true}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/add/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"add",
+						"profile"
+					]
+				},
+				"description": "Add a new profile into the Social Network."
+			},
+			"response": []
+		},
+		{
+			"name": "Connect Profile 1 and 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id_1\":1,\"_profile_id_2\":2}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/connect/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"connect",
+						"profile"
+					]
+				},
+				"description": "Connect two profile as a friends."
+			},
+			"response": []
+		},
+		{
+			"name": "Connect Profile 1 and 3",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id_1\":1,\"_profile_id_2\":3}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/connect/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"connect",
+						"profile"
+					]
+				},
+				"description": "Connect two profile as a friends."
+			},
+			"response": []
+		},
+		{
+			"name": "Connect Profile 4 and 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id_1\":4,\"_profile_id_2\":2}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/connect/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"connect",
+						"profile"
+					]
+				},
+				"description": "Connect two profile as a friends."
+			},
+			"response": []
+		},
+		{
+			"name": "Connect Profile 4 and 3",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id_1\":4,\"_profile_id_2\":3}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/connect/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"connect",
+						"profile"
+					]
+				},
+				"description": "Connect two profile as a friends."
+			},
+			"response": []
+		},
+		{
+			"name": "Connect Profile 4 and 5",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id_1\":4,\"_profile_id_2\":5}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/connect/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"connect",
+						"profile"
+					]
+				},
+				"description": "Connect two profile as a friends."
+			},
+			"response": []
+		},
+		{
+			"name": "Connect Profile 3 and 5",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id_1\":3,\"_profile_id_2\":5}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/connect/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"connect",
+						"profile"
+					]
+				},
+				"description": "Connect two profile as a friends."
+			},
+			"response": []
+		},
+		{
+			"name": "Friend Suggestion Profile 1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "_user_id",
+						"value": "1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id\":1}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/suggested/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"suggested",
+						"profile"
+					]
+				},
+				"description": "Get the suggested friends of a profile."
+			},
+			"response": []
+		},
+		{
+			"name": "Friend Suggestion Profile 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "_user_id",
+						"value": "1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id\":2}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/suggested/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"suggested",
+						"profile"
+					]
+				},
+				"description": "Get the suggested friends of a profile."
+			},
+			"response": []
+		},
+		{
+			"name": "Friend Suggestion Profile 3",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "_user_id",
+						"value": "1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id\":3}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/suggested/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"suggested",
+						"profile"
+					]
+				},
+				"description": "Get the suggested friends of a profile."
+			},
+			"response": []
+		},
+		{
+			"name": "Friend Suggestion Profile 4",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "_user_id",
+						"value": "1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id\":4}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/suggested/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"suggested",
+						"profile"
+					]
+				},
+				"description": "Get the suggested friends of a profile."
+			},
+			"response": []
+		},
+		{
+			"name": "Friend Suggestion Profile 5",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "_user_id",
+						"value": "1"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id\":5}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/suggested/profile",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"suggested",
+						"profile"
+					]
+				},
+				"description": "Get the suggested friends of a profile."
+			},
+			"response": []
+		},
+		{
+			"name": "Disable Friend Suggestion Profile 1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id\":1,\"_friend_suggestion\":false}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/edit/profile/friend/suggestion",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"edit",
+						"profile",
+						"friend",
+						"suggestion"
+					]
+				},
+				"description": "Enable/Disable the friend suggestion feature for a single profile."
+			},
+			"response": []
+		},
+		{
+			"name": "Enable Friend Suggestion Profile 1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"_profile_id\":1,\"_friend_suggestion\":true}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/edit/profile/friend/suggestion",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"edit",
+						"profile",
+						"friend",
+						"suggestion"
+					]
+				},
+				"description": "Enable/Disable the friend suggestion feature for a single profile."
+			},
+			"response": []
+		}
+	]
+}

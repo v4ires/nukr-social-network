@@ -134,8 +134,10 @@ class ProfileOperations extends SocialNetworkOperation[Profile] {
     * @return Boolean The status of the execution of this operation.
     */
   override def enableFriendSuggestion(a: Profile, status: Boolean): String = {
-    a.friendSuggestion_=(status)
-    s"The friend suggestion of profile ${a.name} has been changed."
+    if (a != null) {
+      a.friendSuggestion_=(status)
+      s"The friend suggestion of profile ${a.name} has been changed."
+    } else "The profile does not exists."
   }
 
   /**

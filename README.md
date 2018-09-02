@@ -25,7 +25,7 @@ The Nukr was built in the Maven project structure, and has the following directo
 │   └── test
 ```
 
-Also, the Maven was used for the management of dependencies of this project. 
+Also, the Maven was used for the management of dependencies of this project. The project was built in IntelliJ IDEA, you can use this IDE to compile and run the tests.
 
 To run Nukr - Social Network, just run the following command:
 
@@ -112,20 +112,20 @@ All unit tests can be found in the ```/test``` folder. To run the unit test, jus
 mvn test
 ```
 
+### Postman 
+
+All examples of requests are exported in the Postman Testing API. To run this test, you can import the json file of the test located in:
+
+```bash
+assets/test/postman/nukr-postman.json
+```
+
 ### API Documentation
 
 The API was written with Swagger 2. To access the documentation enter the following URL in your browser:
 
 ```
-localhost:8080/doc/swagger
-```
-
-### Scala Docs
-
-All classes and methods are documented with the Scala Docs Pattern. To access the Scala Docs documentation enter the following URL in your browser:
-
-```
-localhost:8080/doc/scaladocs
+https://app.swaggerhub.com/apis/v4ires/nukr-social-network/1.0.0
 ```
 
 ### Libraries and Licenses
@@ -135,12 +135,13 @@ Table 1 exposes the set of libraries used, describing your versions and licenses
 <center>Table 1: External Libraries.</center>
 <center>
 
-|         Library         |    Version    |          License          |
-|:-----------------------:|:-------------:|:-------------------------:|
-|      scala-library      |     2.12.6    |        BSD 3-clause       |
-|           gson          |     2.8.5     |         Apache 2.0        |
-|     logback-classic     |     1.1.2     | EPL v1.0 and the LGPL 2.1 |
-| spring-boot-starter-web | 2.0.4.RELEASE |         Apache 2.0        |
+|         Library         |    Version    |          License           |
+|:-----------------------:|:-------------:|:--------------------------:|
+|      scala-library      |     2.12.6    |        BSD 3-clause        |
+|           gson          |     2.8.5     |         Apache 2.0         |
+|     logback-classic     |     1.1.2     | EPL v1.0 and the LGPL 2.1  |
+|     Junit               |     4.12      | Eclipse Public License 1.0 |
+| spring-boot-starter-web | 2.0.4.RELEASE |         Apache 2.0         |
 
 </center>
 

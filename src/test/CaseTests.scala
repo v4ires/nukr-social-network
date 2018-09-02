@@ -6,14 +6,27 @@ import org.junit.Assert
 
 import scala.collection.mutable.ArrayBuffer
 
+/**
+  * Teste Cases - Nukr Social Network
+  *
+  */
 class CaseTests extends TestCase {
 
   var ops: ProfileOperations = _
 
+  /**
+    * Initialize the ProfileOperations instance.
+    *
+    */
   override def setUp: Unit = {
     ops = new ProfileOperations
   }
 
+
+  /**
+    * Test the Profile Add feature.
+    *
+    */
   def testAddProfile: Unit = {
     DataRepository.graph.clear()
 
@@ -24,6 +37,10 @@ class CaseTests extends TestCase {
     Assert.assertEquals(ops.addProfile(null), "The profile isn't inserted...")
   }
 
+  /**
+    * Test the Connect Profile feature.
+    *
+    */
   def testConnectProfiles: Unit = {
     DataRepository.graph.clear()
 
@@ -50,6 +67,10 @@ class CaseTests extends TestCase {
     Assert.assertEquals(ops.conectProfile(null, p2), "The profiles doesn't exist.")
   }
 
+  /**
+    * Test Friend Suggestion Feature.
+    *
+    */
   def testSuggestedFriends(): Unit = {
     DataRepository.graph.clear()
 
@@ -77,6 +98,21 @@ class CaseTests extends TestCase {
     Assert.assertEquals(ops.friendSuggestion(p3), "{\"profile_id\":3,\"profile_name\":\"3\",\"suggested_friends\":[{\"profile_name\":\"2\",\"mutual_friends\":2}]}")
     Assert.assertEquals(ops.friendSuggestion(p4), "{\"profile_id\":4,\"profile_name\":\"4\",\"suggested_friends\":[{\"profile_name\":\"1\",\"mutual_friends\":2}]}")
     Assert.assertEquals(ops.friendSuggestion(p5), "{\"profile_id\":5,\"profile_name\":\"5\",\"suggested_friends\":[{\"profile_name\":\"1\",\"mutual_friends\":1},{\"profile_name\":\"2\",\"mutual_friends\":1}]}")
+  }
+
+  /**
+    * Test Enable Friend Suggestion feature.
+    *
+    */
+  def testEnableFriendSuggestion(): Unit = {
+    DataRepository.graph.clear()
+
+    var p = new Profile(_name = "Vinícius Aires Barros", _friendSuggestion = true)
+    p.id_=(ops.generateNewId())
+    ops.addProfile(p)
+
+    Assert.assertEquals(ops.enableFriendSuggestion(p, false), s"The friend suggestion of profile ${p.name} has been changed.")
+    Assert.assertEquals(ops.enableFriendSuggestion(null, false), "The profile does not exists.")
   }
 
 }
