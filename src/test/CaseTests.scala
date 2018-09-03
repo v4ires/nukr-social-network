@@ -30,7 +30,7 @@ class CaseTests extends TestCase {
   def testAddProfile: Unit = {
     DataRepository.graph.clear()
 
-    var p = new Profile(_name = "Vinícius Aires Barros", _friendSuggestion = true)
+    var p = new Profile(_name = "Profile 1", _friendSuggestion = true)
     p.id_=(ops.generateNewId())
 
     Assert.assertEquals(ops.addProfile(p), s"Profile ${p.name} inserted...")
